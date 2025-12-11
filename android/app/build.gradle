@@ -70,6 +70,7 @@ def enableProguardInReleaseBuilds = false
 def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
+    // compileSdkVersion rootProject.ext.compileSdk 
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
@@ -82,6 +83,11 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    kotlinOptions {
+    jvmTarget = "17"
+    }
+
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
@@ -106,7 +112,10 @@ android {
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
+    implementation(platform("com.facebook.react:react-android-bom:0.74.0"))
     implementation("com.facebook.react:react-android")
+    implementation("com.facebook.react:hermes-engine")
+    // implementation("com.facebook.react:react-android")
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
